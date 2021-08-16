@@ -1,0 +1,43 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="btn btn-outline-primary" aria-current="page" href="/new-product">Nowy produkt</a>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <select class="form-control me-2" name="kategoria">
+            <option value=""></option>
+            <option value="ubrania">ubrania</option>
+            <option value="zabawki">zabawki</option>
+            <option value="sztuka">sztuka</option>
+        </select>
+        <button class="btn btn-outline-success" type="submit">Filtruj</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nazwa</th>
+            <th>Cena</th>
+            <th>Ilość</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each products}}
+        <tr>
+            <td>{{this.nazwa}}</td>
+            <td>{{this.cena}}</td>
+            <td>{{this.ilosc}}</td>
+            <td>
+                <a class="btn btn-sm btn-outline-secondary" href="product/{{this.id}}">&times;</a>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
