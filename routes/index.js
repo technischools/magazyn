@@ -26,4 +26,9 @@ router.get('/new-product', function(req, res, next) {
   res.render('new-product', { title: 'Nowy produkt' });
 });
 
+router.post('/product/:id/delete', function(req, res, next) {
+
+  res.render('deleted', { title: 'Produkt usunięty', id: req.params.id });
+});
+
 module.exports = router;

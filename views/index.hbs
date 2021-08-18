@@ -35,7 +35,9 @@
             <td>{{this.cena}}</td>
             <td>{{this.ilosc}}</td>
             <td>
-                <a class="btn btn-sm btn-outline-secondary" href="product/{{this.id}}">&times;</a>
+                <form action="product/{{this.id}}/delete" method="POST">
+                  <button type="submit" class="btn btn-sm btn-outlince-danger">&times;</button>
+                </form>
             </td>
         </tr>
         {{/each}}
