@@ -1,33 +1,37 @@
 var express = require('express');
 var router = express.Router();
 
+const sql = require('mssql')
+
 const DB_USER = 'sa'
 const DB_PWD = 'MSsql123'
 const DB_NAME = 'lato2021magazyn'
 
+const sqlConfig = {
+  user: DB_USER,
+  password: DB_PWD,
+  database: DB_NAME,
+  server: 'localhost',
+  options: {
+    trustServerCertificate: true
+  }
+}
+
 /* GET home page. */
 router.get('/', async function(req, res, next) {
-  const sql = require('mssql')
-  const sqlConfig = {
-    user: DB_USER,
-    password: DB_PWD,
-    database: DB_NAME,
-    server: 'localhost',
-    options: {
-      trustServerCertificate: true
-    }
-  }
+
 
   let products = [];
 
   try {
     // make sure that any items are correctly URL encoded in the connection string
     await sql.connect(sqlConfig)
-    console.log('Połączenie z bazą danych nawiązane');
     const result = await sql.query(`select * from Produkty`)
     products = result.recordset
    } catch (err) {
     console.error('Nieudane połączenie z bazą danych', err)
+   } finally {
+     sql.close()
    }
 
   res.render('index', { title: 'Lista produktów', products: products });
@@ -38,7 +42,19 @@ router.get('/new-product', function(req, res, next) {
   res.render('new-product', { title: 'Nowy produkt' });
 });
 
-router.post('/product/:id/delete', function(req, res, next) {
+router.post('/product/:id/delete', async function(req, res, next) {
+
+  try {
+    // make sure that any items are correctly URL encoded in the connection string
+    const pool = await sql.connect(sqlConfig)
+    const dbReq = await pool.request()
+      .input('Id', sql.INT, req.params.id)
+      .query('DELETE FROM Produkty WHERE Id = @Id')
+   } catch (err) {
+    console.error('Nieudane połączenie z bazą danych', err)
+   } finally {
+     sql.close()
+   }
 
   res.render('deleted', { title: 'Produkt usunięty', id: req.params.id });
 });
