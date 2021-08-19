@@ -37,7 +37,26 @@ router.get('/', async function(req, res, next) {
   res.render('index', { title: 'Lista produktów', products: products });
 });
 
-router.get('/new-product', function(req, res, next) {
+router.get('/new-product', async function(req, res, next) {
+  res.render('new-product', { title: 'Nowy produkt' });
+});
+
+router.post('/new-product', async function(req, res, next) {
+console.log(req.body)
+  try {
+    const pool = await sql.connect(sqlConfig)
+    const dbReq = await pool.request()
+      .input('Id', sql.INT, 99)
+      .input('Nazwa', sql.VarChar(50), req.body.nazwa)
+      .input('Kategoria', sql.VarChar(50), req.body.kategoria)
+      .input('Cena', sql.Money, parseFloat(req.body.cena))
+      .input('Ilosc', sql.SmallInt, parseInt(req.body.ilosc, 10))
+      .query('INSERT INTO Produkty VALUES (@Id, @Nazwa, @Kategoria, @Ilosc, @Cena)')
+   } catch (err) {
+    console.error('Nieudane połączenie z bazą danych', err)
+   } finally {
+     sql.close()
+   }
 
   res.render('new-product', { title: 'Nowy produkt' });
 });
@@ -45,7 +64,6 @@ router.get('/new-product', function(req, res, next) {
 router.post('/product/:id/delete', async function(req, res, next) {
 
   try {
-    // make sure that any items are correctly URL encoded in the connection string
     const pool = await sql.connect(sqlConfig)
     const dbReq = await pool.request()
       .input('Id', sql.INT, req.params.id)
