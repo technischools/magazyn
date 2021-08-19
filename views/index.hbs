@@ -25,17 +25,19 @@
             <th>Nazwa</th>
             <th>Cena</th>
             <th>Ilość</th>
+            <th>Kategoria</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         {{#each products}}
         <tr>
-            <td>{{this.nazwa}}</td>
-            <td>{{this.cena}}</td>
-            <td>{{this.ilosc}}</td>
+            <td>{{this.Nazwa}}</td>
+            <td>{{this.Cena}}</td>
+            <td>{{this.Ilosc}}</td>
+            <td>{{this.Kategoria}}</td>
             <td>
-                <form action="product/{{this.id}}/delete" method="POST">
+                <form action="product/{{this.Id}}/delete" method="POST">
                   <button type="submit" class="btn btn-sm btn-outlince-danger">&times;</button>
                 </form>
             </td>

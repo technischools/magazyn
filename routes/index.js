@@ -1,22 +1,34 @@
 var express = require('express');
 var router = express.Router();
 
+const DB_USER = 'sa'
+const DB_PWD = 'MSsql123'
+const DB_NAME = 'lato2021magazyn'
+
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  const products = [
-    {
-      id: 1,
-      nazwa: 'Kalosze',
-      cena: 20.00,
-      ilosc: 100
-    },
-    {
-      id: 2,
-      nazwa: 'Spodnie',
-      cena: 15.00,
-      ilosc: 2
+router.get('/', async function(req, res, next) {
+  const sql = require('mssql')
+  const sqlConfig = {
+    user: DB_USER,
+    password: DB_PWD,
+    database: DB_NAME,
+    server: 'localhost',
+    options: {
+      trustServerCertificate: true
     }
-  ]
+  }
+
+  let products = [];
+
+  try {
+    // make sure that any items are correctly URL encoded in the connection string
+    await sql.connect(sqlConfig)
+    console.log('Połączenie z bazą danych nawiązane');
+    const result = await sql.query(`select * from Produkty`)
+    products = result.recordset
+   } catch (err) {
+    console.error('Nieudane połączenie z bazą danych', err)
+   }
 
   res.render('index', { title: 'Lista produktów', products: products });
 });
