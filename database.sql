@@ -10,6 +10,12 @@ GO
 USE lato2021magazyn
 GO
 
+CREATE USER app FOR LOGIN app
+GO
+
+EXEC sp_addrolemember 'db_datawriter', 'app'
+EXEC sp_addrolemember 'db_datareader', 'app'
+
 CREATE TABLE Produkty (
     Id INT PRIMARY KEY,
     Nazwa VARCHAR(50) NOT NULL,
