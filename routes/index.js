@@ -3,22 +3,30 @@ const sql = require('mssql')
 const router = express.Router()
 const { request } = require('../database')
 
-async function showAllProducts(req, res) {
+async function showProducts(req, res) {
   let products = []
 
   try {
     const dbRequest = await request()
-    const result = await dbRequest.query('SELECT * FROM Produkty')
+    let result;
+
+    if (req.query.kategoria) {
+      result = await dbRequest
+        .input('Kategoria', sql.VarChar(50), req.query.kategoria)
+        .query('SELECT * FROM Produkty WHERE Kategoria = @Kategoria')
+    } else {
+      result = await dbRequest.query('SELECT * FROM Produkty')
+    }
 
     products = result.recordset
   } catch (err) {
     console.error('Nie udało się pobrać produktów', err)
   }
 
-  res.render('index', { title: 'Lista produktów', products: products, message: res.message })
+  res.render('index', { title: 'Lista produktów', products: products, message: res.message, kategoria: req.query.kategoria })
 }
 
-async function showNewProductForm (req, res) {
+async function showNewProductForm(req, res) {
   res.render('new-product', { title: 'Nowy produkt' })
 }
 
@@ -32,12 +40,12 @@ async function addNewProduct(req, res, next) {
       .input('Ilosc', sql.SmallInt, parseInt(req.body.ilosc, 10))
       .query('INSERT INTO Produkty VALUES (@Nazwa, @Kategoria, @Ilosc, @Cena)')
 
-      res.message = 'Dodano nowy produkt'
+    res.message = 'Dodano nowy produkt'
   } catch (err) {
     console.error('Nie udało się dodać produktu', err)
   }
 
-  showAllProducts(req, res)
+  showProducts(req, res)
 }
 
 async function deleteProduct(req, res) {
@@ -54,10 +62,10 @@ async function deleteProduct(req, res) {
 
   res.message = `Usunięto produkt o id ${req.params.id}`;
 
-  showAllProducts(req, res)
+  showProducts(req, res)
 }
 
-router.get('/', showAllProducts);
+router.get('/', showProducts);
 router.get('/new-product', showNewProductForm);
 router.post('/new-product', addNewProduct);
 router.post('/product/:id/delete', deleteProduct);
