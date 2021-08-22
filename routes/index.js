@@ -1,9 +1,9 @@
 const express = require('express')
 const sql = require('mssql')
 const router = express.Router()
-const { query, request } = require('../database')
+const { request } = require('../database')
 
-router.get('/', async function (req, res, next) {
+async function showAllProducts(req, res) {
   let products = []
 
   try {
@@ -15,14 +15,14 @@ router.get('/', async function (req, res, next) {
     console.error('Nie udało się pobrać produktów', err)
   }
 
-  res.render('index', { title: 'Lista produktów', products: products })
-});
+  res.render('index', { title: 'Lista produktów', products: products, message: res.message })
+}
 
-router.get('/new-product', async function (req, res, next) {
+async function showNewProductForm (req, res) {
   res.render('new-product', { title: 'Nowy produkt' })
-});
+}
 
-router.post('/new-product', async function (req, res, next) {
+async function addNewProduct(req, res, next) {
   try {
     const dbRequest = await request()
     await dbRequest
@@ -32,14 +32,16 @@ router.post('/new-product', async function (req, res, next) {
       .input('Cena', sql.Money, parseFloat(req.body.cena))
       .input('Ilosc', sql.SmallInt, parseInt(req.body.ilosc, 10))
       .query('INSERT INTO Produkty VALUES (@Id, @Nazwa, @Kategoria, @Ilosc, @Cena)')
+
+      res.message = 'Dodano nowy produkt'
   } catch (err) {
     console.error('Nie udało się dodać produktu', err)
   }
 
-  res.render('new-product', { title: 'Nowy produkt' });
-});
+  showAllProducts(req, res)
+}
 
-router.post('/product/:id/delete', async function (req, res, next) {
+async function deleteProduct(req, res) {
 
   try {
     const dbRequest = await request()
@@ -51,7 +53,14 @@ router.post('/product/:id/delete', async function (req, res, next) {
     console.error('Nie udało się usunąć produktu', err)
   }
 
-  res.render('deleted', { title: 'Produkt usunięty', id: req.params.id });
-});
+  res.message = `Usunięto produkt o id ${req.params.id}`;
+
+  showAllProducts(req, res)
+}
+
+router.get('/', showAllProducts);
+router.get('/new-product', showNewProductForm);
+router.post('/new-product', addNewProduct);
+router.post('/product/:id/delete', deleteProduct);
 
 module.exports = router;
