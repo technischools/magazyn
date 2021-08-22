@@ -26,12 +26,11 @@ async function addNewProduct(req, res, next) {
   try {
     const dbRequest = await request()
     await dbRequest
-      .input('Id', sql.INT, 99)
       .input('Nazwa', sql.VarChar(50), req.body.nazwa)
       .input('Kategoria', sql.VarChar(50), req.body.kategoria)
       .input('Cena', sql.Money, parseFloat(req.body.cena))
       .input('Ilosc', sql.SmallInt, parseInt(req.body.ilosc, 10))
-      .query('INSERT INTO Produkty VALUES (@Id, @Nazwa, @Kategoria, @Ilosc, @Cena)')
+      .query('INSERT INTO Produkty VALUES (@Nazwa, @Kategoria, @Ilosc, @Cena)')
 
       res.message = 'Dodano nowy produkt'
   } catch (err) {
