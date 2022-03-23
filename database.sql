@@ -10,6 +10,15 @@ GO
 USE lato2021magazyn
 GO
 
+IF NOT EXISTS 
+    (SELECT name  
+     FROM master.sys.server_principals
+     WHERE name = 'app')
+BEGIN
+    CREATE LOGIN app WITH PASSWORD = 'app', CHECK_POLICY = OFF
+END
+GO
+
 CREATE USER app FOR LOGIN app
 GO
 
@@ -26,7 +35,7 @@ CREATE TABLE Produkty (
 
 SET IDENTITY_INSERT Produkty ON
 
-INSERT INTO Produkty VALUES
+INSERT INTO Produkty (Id, Nazwa, Kategoria, Ilosc, Cena) VALUES
 (1, 'Rower', 'Sport', 10, 1000),
 (2, 'Pluszowy miś', 'Zabawki', 40, 50),
 (3, 'Koń na biegunach', 'Zabawki', 2, 200),
