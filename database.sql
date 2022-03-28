@@ -10,8 +10,7 @@ GO
 USE magazyn2022
 GO
 
-IF NOT EXISTS 
-    (SELECT name  
+IF NOT EXISTS (SELECT name  
      FROM master.sys.server_principals
      WHERE name = 'app')
 BEGIN
