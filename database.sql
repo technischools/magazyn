@@ -25,6 +25,14 @@ GO
 EXEC sp_addrolemember 'db_datawriter', 'app'
 EXEC sp_addrolemember 'db_datareader', 'app'
 
+CREATE TABLE Uzytkownicy (
+    Login VARCHAR(50) PRIMARY KEY,
+    Haslo VARCHAR(50) NOT NULL CHECK(LEN(Haslo) >= 4)
+)
+
+INSERT INTO Uzytkownicy VALUES
+('admin', 'admin123')
+
 CREATE TABLE Produkty (
     Id INT PRIMARY KEY IDENTITY,
     Nazwa VARCHAR(50) NOT NULL,
