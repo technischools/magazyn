@@ -65,9 +65,37 @@ async function deleteProduct(req, res) {
   showProducts(req, res)
 }
 
+async function showLoginForm(req, res) {
+  res.render('login', { title: 'Logowanie' })
+}
+
+async function login(req, res) {
+  const {login, password} = req.body;
+
+  try {
+    const dbRequest = await request()
+
+    const result = await dbRequest
+      .input('Login', sql.VarChar(50), login)
+      .input('Haslo', sql.VarChar(50), password)
+      .query('SELECT Login FROM Uzytkownicy WHERE Login = @Login AND Haslo = @Haslo')
+  
+    if (result.rowsAffected[0] === 1) {
+      showProducts(req, res);
+    } else {
+      res.render('login', {title: 'Logownie', error: 'Logowanie nieudane'})
+    }
+  } catch (err) {
+    res.render('login', {title: 'Logownie', error: 'Logowanie nieudane'})
+  }
+
+}
+
 router.get('/', showProducts);
 router.get('/new-product', showNewProductForm);
 router.post('/new-product', addNewProduct);
 router.post('/product/:id/delete', deleteProduct);
+router.get('/login', showLoginForm);
+router.post('/login', login);
 
 module.exports = router;
