@@ -39,7 +39,7 @@
             <td>{{this.Ilosc}}</td>
             <td>{{this.Kategoria}}</td>
             <td>
-                <form action="product/{{this.Id}}/delete" method="POST">
+                <form action="delete-product?id={{this.Id}}" method="POST">
                   <button type="submit" class="btn btn-sm btn-outlince-danger">&times;</button>
                 </form>
             </td>
