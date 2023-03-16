@@ -1,0 +1,17 @@
+{{#notFound}}
+<h1>Nie znaleziono strony</h1>
+<p class="error-tip">Sprawdź czy wpisałeś poprawny adres.</p>
+{{/notFound}}
+
+{{#viewNotFound}}
+<h1>Nie znaleziono szablonu strony</h1>
+<p class="error-tip">Upewnij się, że utworzyłeś odpowiedni plik w katalogu /pages.</p>
+{{/viewNotFound}}
+
+{{#connectionError}}
+<h1>Nie udało się połączyć z bazą danych</h1>
+<p class="error-tip">Sprawdź czy uruchomiłeś Dockera.</p>
+{{/connectionError}}
+
+<pre>{{error.stack}}</pre>
+

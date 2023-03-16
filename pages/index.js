@@ -19,6 +19,7 @@ module.exports = async function showProducts(req, res) {
     products = result.recordset
   } catch (err) {
     console.error('Nie udało się pobrać produktów', err)
+    throw err;
   }
 
   return { 
