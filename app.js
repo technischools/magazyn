@@ -30,6 +30,14 @@ app.use(
     extended: true,
   })
 );
+
+app.response.redirectWithMessage = function(path, message) {
+
+  const separator = path.indexOf('?') > -1 ? '&' : '?';
+
+  this.redirect(`${path}${separator}message=${encodeURIComponent(message)}`)
+}
+
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(async function (req, res, next) {

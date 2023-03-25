@@ -30,6 +30,6 @@ async function addNewProduct(req, res, next) {
       console.error('Nie udało się dodać produktu', err)
     }
   
-    res.redirect('/');
+    res.redirectWithMessage('/', 'Dodano nowy produkt');
   }
   

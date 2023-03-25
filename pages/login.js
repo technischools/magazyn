@@ -26,7 +26,7 @@ async function login(req, res) {
 
     if (result.rowsAffected[0] === 1) {
       req.session.userLogin = login;
-      res.redirect("/");
+      res.redirectWithMessage("/", `Zalogowany jako ${login}`);
     } else {
       return { title: "Logownie", error: "Logowanie nieudane" };
     }

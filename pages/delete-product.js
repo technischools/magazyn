@@ -13,7 +13,5 @@ module.exports = async function deleteProduct(req, res) {
       console.error('Nie udało się usunąć produktu', err)
     }
   
-    res.message = `Usunięto produkt o id ${req.params.id}`;
-  
-    res.redirect('/');
+    res.redirectWithMessage('/', `Usunięto produkt o id ${req.query.id}`);
   }

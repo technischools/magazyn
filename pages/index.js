@@ -27,6 +27,7 @@ module.exports = async function showProducts(req, res) {
     products: products, 
     message: res.message, 
     kategoria: req.query.kategoria,
-    userLogin: req.session?.userLogin
+    userLogin: req.session?.userLogin,
+    message: req.query.message
    }
 }
