@@ -10,8 +10,23 @@ const app = express();
 
 // view engine setup
 const hbs = create({
-  extname: '.hbs'
+  extname: '.hbs',
+  helpers: {
+    select: function(value, options) {
+      const cheerio = require('cheerio')
+      const $ = cheerio.load(options.fn(this))
+      const selectedOptions = $(`[value=${value}]`);
+
+      if (selectedOptions.length > 0) {
+        selectedOptions[0].attribs['selected'] = 'selected'
+      }
+      
+
+      return $.html()
+    }
+  }
 });
+
 app.engine('hbs', hbs.engine);
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "pages"));

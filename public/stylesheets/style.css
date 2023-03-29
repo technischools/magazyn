@@ -1,5 +1,11 @@
+
 .error-tip {
     color: red;
 
     margin-bottom: 40px;
+}
+
+.table-products td {
+    height: 30px;
+    vertical-align: middle;
 }

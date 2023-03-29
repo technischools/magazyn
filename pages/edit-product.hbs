@@ -1,0 +1,35 @@
+<form class="form" method="POST">
+    <div class="mb-3">
+        <label for="nazwa" class="form-label">Nazwa</label>
+        <input type="text" name="nazwa" id="nazwa" class="form-control" value="{{product.Nazwa}}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="cena" class="form-label">Cena</label>
+        <input type="text" name="cena" id="cena" class="form-control" value="{{product.Cena}}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="ilosc" class="form-label">Ilość</label>
+        <input type="text" name="ilosc" id="ilosc" class="form-control" value="{{product.Ilosc}}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="kategoria" class="form-label">Kategoria</label>
+        <select name="kategoria" id="kategoria" class="form-control" required>
+            {{#select product.Kategoria}}
+                <option value="Ubrania">Ubrania</option>
+                <option value="Zabawki">Zabawki</option>
+                <option value="Sport">Sport</option>
+            {{/select}}
+        </select>
+    </div>
+
+    <div class="text-center mb-3">
+        <button class="btn btn-lg btn-primary">Zapisz</button>
+    </div>
+
+    <div class="text-center">
+        <a href="/">Powrót</a>
+    </div>
+</form>

@@ -2,16 +2,20 @@
   <div class="container-fluid">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto">
+        {{#if userLogin}}
         <li class="nav-item">
           <a class="btn btn-outline-primary" aria-current="page" href="/new-product">Nowy produkt</a>
         </li>
+        {{/if}}
       </ul>
       <form class="d-flex">
         <select class="form-control me-2" name="kategoria">
-            <option value="">wszystko</option>
-            <option value="ubrania">ubrania</option>
-            <option value="zabawki">zabawki</option>
-            <option value="sztuka">sztuka</option>
+            {{#select kategoria}}
+              <option value="">Wszystko</option>
+              <option value="Ubrania">Ubrania</option>
+              <option value="Zabawki">Zabawki</option>
+              <option value="Sport">Sport</option>
+            {{/select}}
         </select>
         <button class="btn btn-outline-success" type="submit">Pokaż</button>
       </form>
@@ -19,7 +23,7 @@
   </div>
 </nav>
 
-<table class="table">
+<table class="table table-hover table-products">
     <thead>
         <tr>
             <th>Id</th>
@@ -39,9 +43,15 @@
             <td>{{this.Ilosc}}</td>
             <td>{{this.Kategoria}}</td>
             <td>
-                <form action="delete-product?id={{this.Id}}" method="POST">
-                  <button type="submit" class="btn btn-sm btn-outlince-danger">&times;</button>
-                </form>
+                {{#if ../userLogin}}
+                    <form action="delete-product?id={{this.Id}}" method="POST" class="form form-inline">
+                      <a href="edit-product/?id={{this.Id}}" class="btn btn-sm"><i class="bi bi-pencil-square"></i></a>
+
+                      <button type="submit" class="btn btn-sm btn-outlince-danger">&times;</button>
+                    </form>
+
+                    
+                {{/if}}
             </td>
         </tr>
         {{/each}}
