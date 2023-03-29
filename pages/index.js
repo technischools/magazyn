@@ -1,19 +1,19 @@
 const sql = require('mssql')
-const { request } = require('../lib/database')
+const { SqlRequest } = require('../lib/database')
 
 module.exports = async function showProducts(req, res) {
   let products = []
 
   try {
-    const dbRequest = request()
+    const sqlRequest = SqlRequest()
     let result;
 
     if (req.query.kategoria) {
-      result = await dbRequest
+      result = await sqlRequest
         .input('Kategoria', sql.VarChar(50), req.query.kategoria)
         .query('SELECT * FROM Produkty WHERE Kategoria = @Kategoria')
     } else {
-      result = await dbRequest.query('SELECT * FROM Produkty')
+      result = await sqlRequest.query('SELECT * FROM Produkty')
     }
 
     products = result.recordset

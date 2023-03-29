@@ -1,5 +1,5 @@
 const sql = require('mssql')
-const { request } = require("../lib/database");
+const { SqlRequest } = require("../lib/database");
 
 module.exports = async function editProduct(req, res) {
     if (req.method === 'GET') {
@@ -13,9 +13,9 @@ module.exports = async function editProduct(req, res) {
 
 async function showEditProductForm(req, res) {
     try {
-        const dbRequest = request()
+        const sqlRequest = new SqlRequest()
     
-        const result = await dbRequest
+        const result = await sqlRequest
           .input('Id', sql.INT, req.query.id)
           .query('SELECT * FROM Produkty WHERE Id = @Id')
 

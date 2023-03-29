@@ -1,12 +1,12 @@
 const sql = require('mssql')
-const { request } = require('../lib/database')
+const { SqlRequest } = require('../lib/database')
 
 module.exports = async function deleteProduct(req, res) {
 
     try {
-      const dbRequest = request()
+      const sqlRequest = new SqlRequest()
   
-      await dbRequest
+      await sqlRequest
         .input('Id', sql.INT, req.query.id)
         .query('DELETE FROM Produkty WHERE Id = @Id')
     } catch (err) {

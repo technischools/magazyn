@@ -1,5 +1,5 @@
 const sql = require("mssql");
-const { request } = require("../lib/database");
+const { SqlRequest } = require("../lib/database");
 
 module.exports = async function showLoginForm(req, res) {
   if (req.method === "GET") {
@@ -15,9 +15,9 @@ async function login(req, res) {
   const { login, password } = req.body;
 
   try {
-    const dbRequest = request();
+    const sqlRequest = SqlRequest();
 
-    const result = await dbRequest
+    const result = await sqlRequest
       .input("Login", sql.VarChar(50), login)
       .input("Haslo", sql.VarChar(50), password)
       .query(
