@@ -4,7 +4,7 @@ const { request } = require('../lib/database')
 module.exports = async function deleteProduct(req, res) {
 
     try {
-      const dbRequest = await request()
+      const dbRequest = request()
   
       await dbRequest
         .input('Id', sql.INT, req.query.id)

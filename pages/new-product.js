@@ -17,7 +17,7 @@ async function showNewProductForm(req, res) {
 
 async function addNewProduct(req, res, next) {
     try {
-      const dbRequest = await request()
+      const dbRequest = request()
       await dbRequest
         .input('Nazwa', sql.VarChar(50), req.body.nazwa)
         .input('Kategoria', sql.VarChar(50), req.body.kategoria)

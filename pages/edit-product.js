@@ -13,7 +13,7 @@ module.exports = async function editProduct(req, res) {
 
 async function showEditProductForm(req, res) {
     try {
-        const dbRequest = await request()
+        const dbRequest = request()
     
         const result = await dbRequest
           .input('Id', sql.INT, req.query.id)
@@ -34,7 +34,7 @@ async function showEditProductForm(req, res) {
 
 async function saveProduct(req, res) {
     try {
-        const dbRequest = await request()
+        const dbRequest = request()
     
         const result = await dbRequest
           .input('Id', sql.INT, req.query.id)

@@ -5,7 +5,7 @@ module.exports = async function showProducts(req, res) {
   let products = []
 
   try {
-    const dbRequest = await request()
+    const dbRequest = request()
     let result;
 
     if (req.query.kategoria) {

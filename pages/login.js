@@ -15,7 +15,7 @@ async function login(req, res) {
   const { login, password } = req.body;
 
   try {
-    const dbRequest = await request();
+    const dbRequest = request();
 
     const result = await dbRequest
       .input("Login", sql.VarChar(50), login)
