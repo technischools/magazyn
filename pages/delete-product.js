@@ -1,5 +1,5 @@
 const sql = require('mssql')
-const { request } = require('../database')
+const { request } = require('../lib/database')
 
 module.exports = async function deleteProduct(req, res) {
 

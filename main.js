@@ -1,12 +1,6 @@
-#!/usr/bin/env node
-
-/**
- * Module dependencies.
- */
-
-var app = require('../app');
-var debug = require('debug')('magazyn:server');
-var http = require('http');
+const app = require('./lib/app');
+const debug = require('debug')('magazyn:server');
+const http = require('http');
 
 /**
  * Get port from environment and store in Express.
