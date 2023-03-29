@@ -1,5 +1,4 @@
-const sql = require('mssql')
-const { SqlRequest } = require('../lib/database')
+const { SqlRequest, sql } = require('../lib/database')
 
 module.exports = async function (req, res) {
   if (req.method === "GET") {
