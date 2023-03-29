@@ -3,7 +3,12 @@ const createHttpServer = require('./lib/httpServer');
 const {connectToDatabase} = require('./lib/database');
 
 async function start() {
-  await connectToDatabase();
+  await connectToDatabase({
+    user: 'app',
+    password: 'app',
+    database: 'magazyn2022',
+    server: 'localhost'
+  });
 
   createHttpServer(app);
 }
